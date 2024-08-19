@@ -1,0 +1,18 @@
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = lf
+trim_trailing_whitespace = true
+quote_type = single
+
+[*.{js,vue,scss}]
+insert_final_newline = true
+max_line_length = 150
+quote = single
+
+[*.{json,yml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

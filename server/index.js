@@ -3,6 +3,7 @@ import session from 'express-session';
 import fs from 'node:fs';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 const app = express();
 app.use(cors());
@@ -10,11 +11,11 @@ app.use(express.json());
 app.use(express.static('loginPage'));
 app.use(
   session({
-    secret: 'fv^umGTdGoxqF#8q',
+    secret: process.env.SECRET,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 一周后过期
     },
-  }),
+  })
 );
 const genToken = (appId) => {
   return jwt.sign({ appId }, appToMapUrl[appId].secretKey);

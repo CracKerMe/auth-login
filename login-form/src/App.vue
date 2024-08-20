@@ -1,18 +1,16 @@
 <script setup>
-import Form from '@/components/Form.vue'
 </script>
 
 <template>
   <div class="home">
     <div class="login-box">
       <div class="login-top">
-        <a href="https://cnsaas.top" target="_blank" rel="noopener noreferrer">
+        <router-link to="/">
           <img src="/logo.svg" alt="">
           <span>cnSaaS.top</span>
-        </a>
+        </router-link>
       </div>
-      <Form />
-      <p class="forget-tips">Did you forget your password?<a href="#" target="_blank" rel="noopener noreferrer">Reset it now</a></p>
+      <router-view />
     </div>
   </div>
 </template>
@@ -34,8 +32,10 @@ import Form from '@/components/Form.vue'
 }
 
 .login-top {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  width: 100%;
+  display: flex;
+  margin-bottom: 1.5rem;
+  justify-content: flex-start;
 
   img {
     width: 32px;
@@ -49,27 +49,15 @@ import Form from '@/components/Form.vue'
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-size: 1.25rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: bold;
     line-height: 1.75rem;
     color: #1a202c;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 
     span {
       color: #1a202c;
     }
-  }
-}
-
-.forget-tips {
-  margin-top: 1.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.25rem;
-  color: #566072;
-
-  a {
-    color: #5845ee;
-    margin-left: 0.25rem;
   }
 }
 

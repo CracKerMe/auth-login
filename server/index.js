@@ -15,7 +15,7 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 一周后过期
     },
-  })
+  }),
 );
 const genToken = (appId) => {
   return jwt.sign({ appId }, appToMapUrl[appId].secretKey);
@@ -47,6 +47,6 @@ app.get('/login', (req, res) => {
   const html = fs.readFileSync(`./loginPage/index.html`, 'utf-8');
   res.send(html);
 });
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+app.listen(3333, () => {
+  console.log('Server is running on http://localhost:3333');
 });

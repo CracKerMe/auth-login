@@ -45,7 +45,7 @@ const textChangeFn = (e) => {
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.25rem;
-    color: #566072;
+    color: #fafafa;
   }
 
   >div {
@@ -53,9 +53,9 @@ const textChangeFn = (e) => {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #27272a;
     transition: 0.2s;
-    background: #ffffff;
+    background: transparent;
 
     >span {
       display: flex;
@@ -67,7 +67,7 @@ const textChangeFn = (e) => {
       left: 0px;
       width: 42px;
       height: 100%;
-      color: #9ba1ab;
+      color: #bbbbbb;
     }
 
     input {
@@ -78,16 +78,16 @@ const textChangeFn = (e) => {
       border: none;
       border-radius: unset;
       outline: none;
-      color: #272a2f;
+      color: #fafafa;
       background: transparent;
       font-size: 0.875rem;
       cursor: text;
       padding-left: 42px;
+    }
 
-      &:focus {
-        border-color: #646cff;
-        background: transparent;
-      }
+    &:focus-within {
+      border-color: #646cff;
+      background: transparent;
     }
   }
 }

@@ -4,7 +4,7 @@
 <template>
   <div class="home">
     <div class="login-box">
-      <div class="login-top">
+      <div class="login-top" v-if="$route.name !== 'NotFound'">
         <router-link to="/">
           <img src="/logo.svg" alt="">
           <span>cnSaaS.top</span>
@@ -18,7 +18,6 @@
 <style lang="scss" scoped>
 .home {
   height: 100vh;
-  background-color: #f0f0f0;
 }
 
 .login-box {
@@ -33,6 +32,7 @@
 
 .login-top {
   width: 100%;
+  height: 32px;
   display: flex;
   margin-bottom: 1.5rem;
   justify-content: flex-start;
@@ -52,11 +52,11 @@
     font-size: 1.5rem;
     font-weight: bold;
     line-height: 1.75rem;
-    color: #1a202c;
+    color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 
     span {
-      color: #1a202c;
+      color: #ffffff;
     }
   }
 }

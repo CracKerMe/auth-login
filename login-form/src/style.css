@@ -9,10 +9,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,24 +27,62 @@ a:hover {
 body {
   width: 100%;
   min-height: 100vh;
-}
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
+  color-scheme: dark;
+  color: #a1a1aa;
+  background-color: #09090b;
 }
 
 ::placeholder {
   color: #9ba1ab;
   transition: all 0.2s;
 }
-input:-internal-autofill-selected {
-  background-color: transparent !important;
-  color: #fff !important;
-  appearance: none !important;
+
+.submit-btn {
+  appearance: none;
+  flex-shrink: 0;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 44px;
+  font-size: 0.875rem;
+  padding: 0px 1rem;
+  width: 100%;
+  justify-content: center;
+  border: 1px solid #5845ee;
+  background-color: #5845ee;
+  color: #ffffff;
+
+  &[disabled] {
+    cursor: not-allowed;
+    background-color: #27272a;
+    border-color: #27272a;
+    color: #bbbbbb;
+  }
+
+  &:not([disabled]):hover {
+    background-color: #4c3dc7;
+    border-color: #4c3dc7;
+  }
+}
+
+.form-item-desc {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  color: #566072;
+
+  a {
+    color: #5845ee;
+    margin-left: 0.25rem;
+  }
 }

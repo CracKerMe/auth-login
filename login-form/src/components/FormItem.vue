@@ -80,6 +80,14 @@ watch(() => props.value, (newValue) => {
       color: #bbbbbb;
     }
 
+    &.readonly {
+      cursor: not-allowed;
+
+      >span {
+        color: #666666;
+      }
+    }
+
     input {
       display: block;
       width: 100%;
@@ -95,9 +103,8 @@ watch(() => props.value, (newValue) => {
       padding-left: 42px;
 
       &[readonly] {
-        cursor: not-allowed;
-        background: #27272a;
-        color: #bbbbbb;
+        background: #111111;
+        color: #666666;
       }
     }
 

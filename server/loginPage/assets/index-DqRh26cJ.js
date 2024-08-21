@@ -1,0 +1,1 @@
+import{_ as o,a as t,o as c,b as s,e as n}from"./index-BuizCe0p.js";const r={},a={class:"auth"};function _(d,i){const e=t("router-view");return c(),s("div",a,[n(e)])}const f=o(r,[["render",_],["__scopeId","data-v-7b4d66c6"]]);export{f as default};

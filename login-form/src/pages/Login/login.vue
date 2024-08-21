@@ -9,7 +9,7 @@
       @update:value="updateFormItem($event, 'password')" />
     <button class="submit-btn" type="submit" shape="block" :disabled="verifyFormBool">登录到 cnSaaS</button>
   </form>
-  <p class="form-item-desc">
+  <p class="form-item-desc flex flex-center">
     忘记密码?
     <router-link to="/auth/forgotten-password">
       找回密码

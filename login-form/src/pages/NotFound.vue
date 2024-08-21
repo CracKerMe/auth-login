@@ -2,11 +2,11 @@
   <div class="page-not-found">
     <img class="" :src="img404" alt="">
     <div>
-      <p><span>Whoops.</span> Something is missing!</p>
-      <p>The page you are looking for doesn't exist.</p>
+      <p><span>哎呀😅</span> 有什么丢失了!</p>
+      <p>您访问的页面不存在了.</p>
     </div>
     <router-link to="/">
-      <span>Go back to Home</span>
+      <span>返回首页</span>
     </router-link>
   </div>
 </template>

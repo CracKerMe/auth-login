@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const systemStore = useSystemStore()
 watch(() => route.name, () => {
-  if (route.name !== 'NotFound') {
+  if (route.name && route.name !== 'NotFound') {
     if (route.name === 'Login') {
       systemStore.setBoxTopTitle('嗨，近来可好👋')
     } else if (route.name === 'ForgottenPassword') {
@@ -18,13 +18,13 @@ watch(() => route.name, () => {
     } else if (route.name === 'CancelSubscription') {
       systemStore.setBoxTopTitle('取消订阅 🔕')
     } else {
-      systemStore.setBoxTopTitle(import.meta.env.VITE_APP_APPNAME + ' 😁')
+      systemStore.setBoxTopTitle((import.meta.env.VITE_APP_APPNAME || '') + ' 😁')
     }
     systemStore.setShowBoxTopBool(true)
   } else {
     systemStore.setShowBoxTopBool(false)
   }
-}, { immediate: true })
+}, { immediate: true });
 </script>
 
 <template>
@@ -33,7 +33,7 @@ watch(() => route.name, () => {
       <div class="login-top" v-if="systemStore.showBoxTopBool">
         <router-link to="/">
           <img src="/logo.svg" alt="">
-          <span>{{ systemStore.boxTopTitle }}</span>
+          <span>{{ systemStore?.boxTopTitle || '' }}</span>
         </router-link>
       </div>
       <router-view />

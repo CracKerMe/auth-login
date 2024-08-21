@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "pinia": "^2.2.2",
     "sass": "^1.77.8",
     "vue": "^3.4.37",
+    "vue-input-otp": "^0.1.0",
     "vue-router": "4"
   },
   "devDependencies": {

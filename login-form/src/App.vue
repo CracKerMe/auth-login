@@ -1,13 +1,39 @@
 <script setup>
+import { useSystemStore } from '@/store/system'
+import { watch } from 'vue';
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const systemStore = useSystemStore()
+watch(() => route.name, () => {
+  if (route.name !== 'NotFound') {
+    if (route.name === 'Login') {
+      systemStore.setBoxTopTitle('嗨，近来可好👋')
+    } else if (route.name === 'ForgottenPassword') {
+      systemStore.setBoxTopTitle('忘记密码 😮')
+    } else if (route.name === 'Register') {
+      systemStore.setBoxTopTitle('嗨，近来可好 👏')
+    } else if (route.name === 'ResetPassword') {
+      systemStore.setBoxTopTitle('重置密码 🔒')
+    } else if (route.name === 'CancelSubscription') {
+      systemStore.setBoxTopTitle('取消订阅 🔕')
+    } else {
+      systemStore.setBoxTopTitle(import.meta.env.VITE_APP_APPNAME + ' 😁')
+    }
+    systemStore.setShowBoxTopBool(true)
+  } else {
+    systemStore.setShowBoxTopBool(false)
+  }
+}, { immediate: true })
 </script>
 
 <template>
   <div class="home">
     <div class="login-box">
-      <div class="login-top" v-if="$route.name !== 'NotFound'">
+      <div class="login-top" v-if="systemStore.showBoxTopBool">
         <router-link to="/">
           <img src="/logo.svg" alt="">
-          <span>cnSaaS.top</span>
+          <span>{{ systemStore.boxTopTitle }}</span>
         </router-link>
       </div>
       <router-view />
@@ -34,7 +60,7 @@
   width: 100%;
   height: 32px;
   display: flex;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   justify-content: flex-start;
 
   img {

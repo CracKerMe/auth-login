@@ -1,33 +1,43 @@
 <template>
   <div class="form-item">
     <label :for="`${props.name}_form_item`">{{ props.label }}</label>
-    <div>
+    <div :class="{ 'readonly': props.readonly }">
       <span v-html="props.svg" />
-      <input :type="props.type" :id="`${props.name}_form_item`" :placeholder="props.placeholder" v-model="oValue"
+      <input :type="props.type" :id="`${props.name}_form_item`" :placeholder="props.placeholder" :value="oValue"
         autocapitalize="off" :autocomplete="props.type === 'password' ? 'new-password' : 'off'" :name="props.name"
-        @change="textChangeFn" />
+        @change="textChangeFn" :readonly="props.readonly" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, ref, defineEmits } from 'vue'
+import { ref, watch } from 'vue'
 const props = defineProps({
   label: String,
   type: String,
   placeholder: String,
   value: String,
   name: String,
-  svg: String
+  svg: String,
+  readonly: {
+    type: Boolean,
+    default: false
+  }
 })
 const emits = defineEmits(['update:value'])
 
-const oValue = ref(props.value)
+const oValue = ref('')
 
 const textChangeFn = (e) => {
   oValue.value = e.target.value
   emits('update:value', oValue.value)
 }
+
+watch(() => props.value, (newValue) => {
+  oValue.value = newValue
+}, {
+  immediate: true
+})
 </script>
 
 <style lang="scss" scoped>
@@ -83,9 +93,15 @@ const textChangeFn = (e) => {
       font-size: 0.875rem;
       cursor: text;
       padding-left: 42px;
+
+      &[readonly] {
+        cursor: not-allowed;
+        background: #27272a;
+        color: #bbbbbb;
+      }
     }
 
-    &:focus-within {
+    &:not(.readonly):focus-within {
       border-color: #646cff;
       background: transparent;
     }

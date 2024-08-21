@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="auth">
     <router-view />
   </div>
 </template>
@@ -8,4 +8,8 @@
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.auth {
+  width: 100%;
+}
+</style>

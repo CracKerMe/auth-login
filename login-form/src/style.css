@@ -73,6 +73,16 @@ body {
   }
 }
 
+.form-item-sub {
+  width: 100%;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  color: #bbbbbb;
+  margin-bottom: 1.5rem;
+}
+
 .form-item-desc {
   text-align: center;
   margin-top: 1.5rem;
@@ -85,4 +95,37 @@ body {
     color: #5845ee;
     margin-left: 0.25rem;
   }
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }

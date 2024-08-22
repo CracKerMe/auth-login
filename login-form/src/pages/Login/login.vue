@@ -15,11 +15,24 @@
       找回密码
     </router-link>
   </p>
+  <div class="flex flex-center divider-line"></div>
+  <button class="google-btn" type="button" shape="block">
+    <img :src="GoogleIcon" alt="">
+    使用 Google 帐号登录
+  </button>
+  <p class="form-item-desc flex flex-center">
+    还没有账号？
+    <router-link to="/register">
+      点我注册
+    </router-link>
+  </p>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import FormItem from '@/components/FormItem.vue'
+import GoogleIcon from '@/assets/googleIcon.svg'
+
 const formData = ref({
   email: '',
   password: ''

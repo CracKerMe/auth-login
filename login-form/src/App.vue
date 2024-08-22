@@ -58,11 +58,11 @@ console.log(
 
 <style lang="scss" scoped>
 .layout {
-  height: 100vh;
+  height: 100%;
 }
 
 .login-box {
-  height: 100vh;
+  height: 100%;
   max-width: calc(400px + 4rem);
   padding: 0 2rem;
   margin: 0 auto;

@@ -18,7 +18,7 @@ import img404 from '@/assets/404.webp';
 <style lang="scss" scoped>
 .page-not-found {
   display: flex;
-  height: calc(100vh - 14rem);
+  height: calc(100vh - 4rem);
   justify-content: center;
   align-items: center;
   flex-direction: column;

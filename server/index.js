@@ -18,7 +18,7 @@ app.use(
   }),
 );
 const genToken = (appId) => {
-  return jwt.sign({ appId }, appToMapUrl[appId].secretKey);
+  return jwt.sign({ appId }, appMapping[appId].secretKey);
 };
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -41,12 +41,34 @@ const appMapping = {
 
 // 处理登录请求
 app.get('/login', (req, res) => {
-  if (req.session.username) {
+  if (req.session.email) {
     // 已登录
+    const appId = req.query.appId;
+    const url = appMapping[appId].url;
+    let token;
+    // 登录过如果存过token就直接取 没有存过就生成一个 因为可能有多个引用A登录过读取Token   B没有登录过生成Token 存入映射表
+    if (appMapping[appId].token) {
+      token = appMapping[appId].token;
+    } else {
+      token = genToken(appId);
+      appMapping[appId].token = token;
+    }
+    res.redirect(url + '?token=' + token);
+    return;
   }
   const html = fs.readFileSync(`./loginPage/index.html`, 'utf-8');
   res.send(html);
 });
+//提供protectd get接口 重定向到目标地址
+app.get('/protectd', (req, res) => {
+  const { appId, email, password } = req.query; // 获取应用标识
+  const url = appMapping[appId].url; // 读取要跳转的地址
+  const token = genToken(appId); // 生成token
+  req.session.email = email; // 存储用户名称 表示这个邮箱已经登录过了 下次无需登录
+  appMapping[appId].token = token; // 根据应用存入对应的token
+  res.redirect(url + '?token=' + token); // 定向到目标页面
+});
+
 app.listen(3333, () => {
   console.log('Server is running on http://localhost:3333');
 });

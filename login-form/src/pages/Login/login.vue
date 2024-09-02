@@ -29,10 +29,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import FormItem from '@/components/FormItem.vue'
 import GoogleIcon from '@/assets/googleIcon.svg'
 
+const appId = ref('');
 const formData = ref({
   email: '',
   password: ''
@@ -54,8 +55,15 @@ const updateFormItem = (value, name) => {
 const submitFn = (e) => {
   e.preventDefault();
   console.log(formData.value);
-  fetch()
-}
+  // fetch(`http://localhost:3333/protectd?appId=${appId.value}`)
+  //  .then(res => res.json())
+  //  .then(data => console.log(data))
+  //  .catch(err => console.log(err))
+};
+
+onMounted(() => {
+  appId.value = location.search.split('=')[1]
+});
 </script>
 
 <style lang="scss" scoped>

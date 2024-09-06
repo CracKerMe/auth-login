@@ -42,8 +42,8 @@ console.log(
       <div class="login-top" v-if="systemStore.showBoxTopBool">
         <router-link to="/">
           <img src="/logo.svg" alt="">
-          <span>{{ systemStore?.boxTopTitle || '' }}</span>
         </router-link>
+        <span>{{ systemStore?.boxTopTitle || '' }}</span>
       </div>
       <router-view />
       <footer>
@@ -63,7 +63,7 @@ console.log(
 
 .login-box {
   height: 100%;
-  max-width: calc(400px + 4rem);
+  max-width: calc(400px + 8rem);
   padding: 0 2rem;
   margin: 0 auto;
   display: flex;
@@ -78,6 +78,8 @@ console.log(
   display: flex;
   margin-bottom: 0.5rem;
   justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
 
   img {
     width: 32px;
@@ -90,16 +92,15 @@ console.log(
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+  }
+
+  span {
     font-size: 1.5rem;
     font-weight: bold;
     line-height: 1.75rem;
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-
-    span {
-      color: #ffffff;
-    }
+    color: #ffffff;
   }
 }
 

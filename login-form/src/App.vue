@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useSystemStore } from '@/store/system'
 import { watch, ref } from 'vue'
 import { useRoute } from 'vue-router'

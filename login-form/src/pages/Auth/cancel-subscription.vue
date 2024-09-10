@@ -16,14 +16,19 @@
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
-import FormItem from '@/components/FormItem.vue';
+import FormItem from '@/components/FormItem/index.vue'
+
+enum IFormItemKey {
+  email = 'email'
+}
+
 const formData = ref({
   email: ''
 });
 
-function isEmail(str) {
+function isEmail(str: string) {
   const reg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
   return reg.test(str);
 }
@@ -32,11 +37,11 @@ const verifyFormBool = computed(() => {
   return !formData.value.email && !isEmail(formData.value.email);
 });
 
-const updateFormItem = (value, name) => {
+const updateFormItem = (value: string, name: keyof typeof IFormItemKey) => {
   formData.value[name] = value;
 };
 
-const submitFn = (e) => {
+const submitFn = (e: Event) => {
   e.preventDefault();
   console.log(formData.value);
 };

@@ -16,23 +16,32 @@
     </router-link>
   </p>
   <div class="flex flex-center divider-line"></div>
-  <button class="google-btn" type="button" shape="block">
-    <img :src="GoogleIcon" alt="">
-    使用 Google 帐号注册
-  </button>
+  <GoogleLogin :callback="googleCallbackFn" prompt auto-login>
+    <button class="google-btn" type="button" shape="block">
+      <img :src="GoogleIcon" alt="">
+      使用 Google 帐号注册
+    </button>
+  </GoogleLogin>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
-import FormItem from '@/components/FormItem.vue'
+import FormItem from '@/components/FormItem/index.vue'
 import GoogleIcon from '@/assets/googleIcon.svg'
+import type { CallbackTypes } from "vue3-google-login";
+import { decodeCredential } from "vue3-google-login";
+
+enum IFormItemKey {
+  email = 'email',
+  password = 'password'
+}
 
 const formData = ref({
   email: '',
   password: ''
 });
 
-function isEmail(str) {
+function isEmail(str: string) {
   const reg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
   return reg.test(str);
 }
@@ -41,14 +50,19 @@ const verifyFormBool = computed(() => {
   return !(formData.value.email && isEmail(formData.value.email) && formData.value.password);
 });
 
-const updateFormItem = (value, name) => {
+const updateFormItem = (value: string, name: keyof typeof IFormItemKey) => {
   formData.value[name] = value;
 }
 
-const submitFn = (e) => {
+const googleCallbackFn: CallbackTypes.CredentialCallback = (response) => {
+  const userData = decodeCredential(response?.credential)
+  console.log("Handle the userData", userData)
+}
+
+const submitFn = (e: Event) => {
   e.preventDefault();
   console.log(formData.value);
-  fetch()
+  // fetch()
 }
 </script>
 

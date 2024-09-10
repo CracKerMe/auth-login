@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import img404 from '@/assets/404.webp';
 </script>
 

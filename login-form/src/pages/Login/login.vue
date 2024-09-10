@@ -16,10 +16,12 @@
     </router-link>
   </p>
   <div class="flex flex-center divider-line"></div>
-  <button class="google-btn" type="button" shape="block">
-    <img :src="GoogleIcon" alt="">
-    使用 Google 帐号登录
-  </button>
+  <GoogleLogin :callback="googleCallbackFn" prompt auto-login>
+    <button class="google-btn" type="button" shape="block">
+      <img :src="GoogleIcon" alt="">
+      使用 Google 帐号登录
+    </button>
+  </GoogleLogin>
   <p class="form-item-desc flex flex-center">
     还没有账号？
     <router-link to="/register">
@@ -28,10 +30,18 @@
   </p>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import FormItem from '@/components/FormItem.vue'
+import FormItem from '@/components/FormItem/index.vue'
 import GoogleIcon from '@/assets/googleIcon.svg'
+import type { CallbackTypes } from "vue3-google-login";
+import { decodeCredential } from "vue3-google-login";
+
+
+enum IFormItemKey {
+  email = 'email',
+  password = 'password'
+}
 
 const appId = ref('');
 const formData = ref({
@@ -39,7 +49,7 @@ const formData = ref({
   password: ''
 });
 
-function isEmail(str) {
+function isEmail(str: string) {
   const reg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
   return reg.test(str);
 }
@@ -48,11 +58,11 @@ const verifyFormBool = computed(() => {
   return !(formData.value.email && isEmail(formData.value.email) && formData.value.password);
 });
 
-const updateFormItem = (value, name) => {
+const updateFormItem = (value: string, name: keyof typeof IFormItemKey) => {
   formData.value[name] = value;
 }
 
-const submitFn = (e) => {
+const submitFn = (e: Event) => {
   e.preventDefault();
   console.log(formData.value);
   // fetch(`http://localhost:3333/protectd?appId=${appId.value}`)
@@ -61,6 +71,27 @@ const submitFn = (e) => {
   //  .catch(err => console.log(err))
 };
 
+const googleCallbackFn: CallbackTypes.CredentialCallback = (response) => {
+  const userData = decodeCredential(response?.credential)
+  console.log("Handle the userData", userData)
+  // const mockUserData = {
+  //   aud: "234225060379-j1r9h4ubf181q7mldd0n2s18tv26q12r.apps.googleusercontent.com",
+  //   azp: "234225060379-j1r9h4ubf181q7mldd0n2s18tv26q12r.apps.googleusercontent.com",
+  //   email: "sarrazinparfait@gmail.com",
+  //   email_verified: true,
+  //   exp: 1725935219,
+  //   family_name: "Sarrazin",
+  //   given_name: "Parfait",
+  //   iat: 1725931619,
+  //   iss: "https://accounts.google.com",
+  //   jti: "1ed4784de409bf374a0ed494755893cd098b8b0e",
+  //   name: "Parfait Sarrazin",
+  //   nbf: 1725931319,
+  //   picture: "https://lh3.googleusercontent.com/a/ACg8ocKVcHViagVQWbIjrG37yzYVYBT1VuVtBt40QuxCadNF1lrRtPM=s96-c",
+  //   sub: "115187129132192479884"
+  // }
+}
+
 onMounted(() => {
   appId.value = location.search.split('=')[1]
 });
@@ -68,6 +99,10 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 form {
+  width: 100%;
+}
+
+.g-btn-wrapper {
   width: 100%;
 }
 </style>

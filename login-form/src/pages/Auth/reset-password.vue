@@ -28,11 +28,15 @@
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import FormItem from '@/components/FormItem.vue';
+import FormItem from '@/components/FormItem/index.vue'
 import { useRoute } from 'vue-router';
 import { OTPInput } from 'vue-input-otp'
+
+enum IFormItemKey {
+  email = 'email'
+}
 
 const route = useRoute();
 const formData = ref({
@@ -41,7 +45,7 @@ const formData = ref({
 });
 const loading = ref(false);
 
-function isEmail(str) {
+function isEmail(str: string) {
   const reg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
   return reg.test(str);
 }
@@ -50,11 +54,11 @@ const verifyFormBool = computed(() => {
   return !(formData.value.email && isEmail(formData.value.email) && formData.value.code && formData.value.code.length === 6 && !loading.value);
 });
 
-const updateFormItem = (value, name) => {
+const updateFormItem = (value: string, name: keyof typeof IFormItemKey) => {
   formData.value[name] = value;
 };
 
-const submitFn = (e) => {
+const submitFn = (e: Event | null) => {
   e && e.preventDefault();
   console.log(formData.value);
   loading.value = true;
@@ -64,15 +68,15 @@ const submitFn = (e) => {
   }, 1000);
 };
 
-const codeCompleteFn = (code) => {
+const codeCompleteFn = (code: string) => {
   console.log(code);
-  submitFn();
+  submitFn(null);
 };
 
 onMounted(() => {
   console.log(route.query.email);
   if (route.query.email) {
-    formData.value.email = route.query.email;
+    formData.value.email = route.query.email as string;
   }
 });
 </script>

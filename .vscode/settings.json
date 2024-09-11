@@ -60,5 +60,6 @@
   "typescript.preferences.quoteStyle": "single",
   "prettier.singleAttributePerLine": true,
   "vs-code-prettier-eslint.prettierLast": true,
-  "cSpell.words": ["APPNAME"]
+  "cSpell.words": ["APPNAME"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

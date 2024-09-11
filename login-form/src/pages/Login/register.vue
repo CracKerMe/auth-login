@@ -22,6 +22,16 @@
       使用 Google 帐号注册
     </button>
   </GoogleLogin>
+  <p class="form-item-desc flex flex-center">
+    注册即表示您同意我们的
+    <a href="https://cnsaas.top/policy.html" target="_blank">
+      隐私政策
+    </a>
+    &nbsp; & &nbsp;
+    <a href="https://cnsaas.top/services.html" target="_blank">
+      服务协议
+    </a>
+  </p>
 </template>
 
 <script setup lang="ts">
@@ -72,6 +82,10 @@ const submitFn = (e: Event) => {
 
 <style lang="scss" scoped>
 form {
+  width: 100%;
+}
+
+.g-btn-wrapper {
   width: 100%;
 }
 </style>

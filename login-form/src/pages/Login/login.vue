@@ -28,6 +28,16 @@
       点我注册
     </router-link>
   </p>
+  <p class="form-item-desc flex flex-center">
+    登录即表示您同意我们的
+    <a href="https://cnsaas.top/policy.html" target="_blank">
+      隐私政策
+    </a>
+    &nbsp; & &nbsp;
+    <a href="https://cnsaas.top/services.html" target="_blank">
+      服务协议
+    </a>
+  </p>
 </template>
 
 <script setup lang="ts">

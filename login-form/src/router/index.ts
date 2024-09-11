@@ -1,4 +1,4 @@
-import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
@@ -14,6 +14,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('@/pages/Login/register.vue'),
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: () => import('@/pages/Account/index.vue'),
   },
   {
     path: '/auth',

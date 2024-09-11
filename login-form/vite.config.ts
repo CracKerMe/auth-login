@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import viteCompression from 'vite-plugin-compression';
 import vitePluginBundleObfuscator from 'vite-plugin-bundle-obfuscator';
 
-const obfuscatorConfig = {
+const obfuscatorConfig: any = {
   enable: true,
   excludes: [],
   options: {

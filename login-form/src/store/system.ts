@@ -12,10 +12,10 @@ export const useSystemStore = defineStore('system', {
     getBoxTopTitle: (state) => state.boxTopTitle,
   },
   actions: {
-    setShowBoxTopBool(bool) {
+    setShowBoxTopBool(bool: boolean) {
       this.showBoxTopBool = bool;
     },
-    setBoxTopTitle(title) {
+    setBoxTopTitle(title: string) {
       this.boxTopTitle = title;
     },
   },

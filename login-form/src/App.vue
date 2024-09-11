@@ -10,6 +10,7 @@ const isDev = ref(import.meta.env.MODE === 'dev')
 
 watch(() => route.name, () => {
   if (route.name && route.name !== 'NotFound') {
+    systemStore.setShowBoxTopBool(true)
     if (route.name === 'Login') {
       systemStore.setBoxTopTitle('嗨，近来可好👋')
     } else if (route.name === 'ForgottenPassword') {
@@ -20,10 +21,12 @@ watch(() => route.name, () => {
       systemStore.setBoxTopTitle('重置密码 🔒')
     } else if (route.name === 'CancelSubscription') {
       systemStore.setBoxTopTitle('取消订阅 🔕')
+    } else if (route.name === 'Account') {
+      systemStore.setBoxTopTitle('')
+      systemStore.setShowBoxTopBool(false)
     } else {
       systemStore.setBoxTopTitle((import.meta.env.VITE_APP_APPNAME || '') + ' 😁')
     }
-    systemStore.setShowBoxTopBool(true)
   } else {
     systemStore.setShowBoxTopBool(false)
   }

@@ -36,8 +36,10 @@ import FormItem from '@/components/FormItem/index.vue'
 import GoogleIcon from '@/assets/googleIcon.svg'
 import type { CallbackTypes } from "vue3-google-login";
 import { decodeCredential } from "vue3-google-login";
+import { useRouter } from 'vue-router';
 
 
+const router = useRouter();
 enum IFormItemKey {
   email = 'email',
   password = 'password'
@@ -74,6 +76,8 @@ const submitFn = (e: Event) => {
 const googleCallbackFn: CallbackTypes.CredentialCallback = (response) => {
   const userData = decodeCredential(response?.credential)
   console.log("Handle the userData", userData)
+  localStorage.setItem("_userData", JSON.stringify(userData))
+  router.replace({ name: 'Account' })
   // const mockUserData = {
   //   aud: "234225060379-j1r9h4ubf181q7mldd0n2s18tv26q12r.apps.googleusercontent.com",
   //   azp: "234225060379-j1r9h4ubf181q7mldd0n2s18tv26q12r.apps.googleusercontent.com",

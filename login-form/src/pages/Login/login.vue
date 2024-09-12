@@ -41,21 +41,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import FormItem from '@/components/FormItem/index.vue'
 import GoogleIcon from '@/assets/googleIcon.svg'
 import type { CallbackTypes } from "vue3-google-login";
 import { decodeCredential } from "vue3-google-login";
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 
 const router = useRouter();
+const route = useRoute();
 enum IFormItemKey {
   email = 'email',
   password = 'password'
 }
 
-const appId = ref('');
 const formData = ref({
   email: '',
   password: ''
@@ -77,10 +77,21 @@ const updateFormItem = (value: string, name: keyof typeof IFormItemKey) => {
 const submitFn = (e: Event) => {
   e.preventDefault();
   console.log(formData.value);
-  // fetch(`http://localhost:3333/protectd?appId=${appId.value}`)
-  //  .then(res => res.json())
-  //  .then(data => console.log(data))
-  //  .catch(err => console.log(err))
+  fetch(`http://localhost:3333/api/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      appId: route.query?.appId,
+      email: formData.value.email,
+      password: formData.value.password,
+      redirectUrl: route.query?.redirect,
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
 };
 
 const googleCallbackFn: CallbackTypes.CredentialCallback = (response) => {
@@ -105,10 +116,6 @@ const googleCallbackFn: CallbackTypes.CredentialCallback = (response) => {
   //   sub: "115187129132192479884"
   // }
 }
-
-onMounted(() => {
-  appId.value = location.search.split('=')[1]
-});
 </script>
 
 <style lang="scss" scoped>

@@ -1,12 +1,14 @@
 import express from 'express';
 import session from 'express-session';
 import fs from 'node:fs';
+import path from 'node:path';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 const app = express();
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('loginPage'));
 app.use(
@@ -15,14 +17,14 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 一周后过期
     },
-  }),
+  })
 );
-const genToken = (appId) => {
-  return jwt.sign({ appId }, appMapping[appId].secretKey);
+
+const genToken = (appId, uid) => {
+  return jwt.sign({ appId, uid }, appMapping[appId].appSecretKey, {
+    expiresIn: '1d',
+  });
 };
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
 const appMapping = {
   // 应用A的ID
@@ -38,35 +40,38 @@ const appMapping = {
     token: '',
   },
 };
+app.get('/api', (req, res) => {
+  // 返回 api 状态信息
+  res.json({
+    status: 'success',
+    message: 'API is working',
+  });
+});
 
 // 处理登录请求
-app.get('/login', (req, res) => {
-  if (req.session.email) {
-    // 已登录
-    const appId = req.query.appId;
-    const url = appMapping[appId].url;
-    let token;
-    // 登录过如果存过token就直接取 没有存过就生成一个 因为可能有多个引用A登录过读取Token   B没有登录过生成Token 存入映射表
-    if (appMapping[appId].token) {
-      token = appMapping[appId].token;
-    } else {
-      token = genToken(appId);
-      appMapping[appId].token = token;
-    }
-    res.redirect(url + '?token=' + token);
+app.post('/api/login', async (req, res) => {
+  console.log(req.body);
+  const { email, password, redirectUrl, appId } = req.body;
+  if (email === 'admin@example.com' && password === '123456') {
+    // 登录成功
+    const uid = '123456';
+    const token = genToken(appId, uid);
+    appMapping[appId].token = token;
+    res.cookie('_token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 1,
+      httpOnly: true,
+      signed: true,
+    });
+    res.redirect(redirectUrl);
     return;
   }
-  const html = fs.readFileSync(`./loginPage/index.html`, 'utf-8');
-  res.send(html);
+  res.status(401).send('错误的邮箱或密码');
 });
-//提供protectd get接口 重定向到目标地址
-app.get('/protectd', (req, res) => {
-  const { appId, email, password } = req.query; // 获取应用标识
-  const url = appMapping[appId].url; // 读取要跳转的地址
-  const token = genToken(appId); // 生成token
-  req.session.email = email; // 存储用户名称 表示这个邮箱已经登录过了 下次无需登录
-  appMapping[appId].token = token; // 根据应用存入对应的token
-  res.redirect(url + '?token=' + token); // 定向到目标页面
+
+// generate static page for get request
+app.get('*', (req, res) => {
+  const __dirname = path.resolve();
+  res.sendFile(path.join(__dirname, 'loginPage', 'index.html'));
 });
 
 app.listen(3333, () => {

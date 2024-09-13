@@ -13,26 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('loginPage'));
 
-const genToken = (appId, uid) => {
-  return jwt.sign({ appId, uid }, appMapping[appId].appSecretKey, {
+const genToken = (uid) => {
+  return jwt.sign({ uid }, process.env.SECRET, {
     expiresIn: '1d',
   });
 };
 
-const appMapping = {
-  // 应用A的ID
-  HEnisMovHy: {
-    url: 'http://localhost:5174', // 应用A的地址
-    appSecretKey: 'j6E5t$xEzNuOyYeb',
-    token: '',
-  },
-  // 应用B的ID
-  UsqfCs78rM: {
-    url: 'http://localhost:5175', // 应用B的地址
-    appSecretKey: '$Wk!3YecMIXu2&i1',
-    token: '',
-  },
-};
 app.get('/api', (req, res) => {
   // 返回 api 状态信息
   res.json({
@@ -44,12 +30,11 @@ app.get('/api', (req, res) => {
 // 处理登录请求
 app.post('/api/login', async (req, res) => {
   console.log(req.body);
-  const { email, password, appId } = req.body;
+  const { email, password } = req.body;
   if (email === 'admin@example.com' && password === '123456') {
     // 登录成功
     const uid = '123456';
-    const token = genToken(appId, uid);
-    appMapping[appId].token = token;
+    const token = genToken(uid);
     res.cookie('_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 1,
       httpOnly: true,
@@ -68,6 +53,21 @@ app.post('/api/login', async (req, res) => {
     code: 401,
     message: '错误的邮箱或密码',
     data: {},
+  });
+});
+
+app.get('/api/verify', (req, res) => {
+  const token = req.headers.authorization.split(' ')[1];
+
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.send({
+        code: 401,
+        message: '错误的邮箱或密码',
+        data: {},
+      });
+    }
+    return res.json({ message: 'Token Ready', data: { user: decoded }, code: 0 });
   });
 });
 

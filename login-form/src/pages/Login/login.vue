@@ -80,7 +80,6 @@ const submitFn = (e: Event) => {
   fetch(`http://localhost:3333/api/login`, {
     method: 'POST',
     body: JSON.stringify({
-      appId: route.query?.appId,
       email: formData.value.email,
       password: formData.value.password
     }),

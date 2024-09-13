@@ -82,15 +82,22 @@ const submitFn = (e: Event) => {
     body: JSON.stringify({
       appId: route.query?.appId,
       email: formData.value.email,
-      password: formData.value.password,
-      redirectUrl: route.query?.redirect,
+      password: formData.value.password
     }),
     headers: {
       'Content-Type': 'application/json'
     }
   })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+      console.log(data)
+      if (data.code === 0) {
+        localStorage.setItem('token', data.data.token)
+        location.href = `${route.query?.redirect}?token=${data.data.token}`
+      } else {
+        alert(data.message)
+      }
+    })
     .catch(err => console.log(err))
 };
 

@@ -5,6 +5,7 @@ import path from 'node:path';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import https from 'node:https';
 
 const app = express();
 app.use(cors());
@@ -77,6 +78,17 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'loginPage', 'index.html'));
 });
 
-app.listen(3333, () => {
-  console.log('Server is running on http://localhost:3333');
+const __dirname = path.resolve();
+const sslOptions = {
+  key: fs.readFileSync(path.join(__dirname, './ssl/cnsaas.top.key')),
+  cert: fs.readFileSync(path.join(__dirname, './ssl/cnsaas.top_bundle.crt')),
+  ca: fs.readFileSync(path.join(__dirname, './ssl/cnsaas.top_bundle.crt')), // 可选
+};
+
+https.createServer(sslOptions, app).listen(443, () => {
+  console.log('Https Server Ready, https://localhost:443');
+});
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
